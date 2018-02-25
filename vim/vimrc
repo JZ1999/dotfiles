@@ -1,0 +1,95 @@
+execute pathogen#infect()
+set noswapfile
+set rtp+=$HOME/.local/lib/python2.7/site-packages/powerline/bindings/vim/
+"Always show statusline
+set laststatus=2
+
+"Use 256 colours (Use this setting only if your terminal supports 256 colours)
+set t_Co=256
+
+set nu
+syntax on
+set clipboard=unnamed
+
+"Instantly better vim
+"Line on col 81
+highlight ColorColumn ctermbg=magenta
+call matchadd('ColorColumn', '\%81v', 100)
+"Better find
+exec "set listchars=tab:\uBB\uBB,trail:\uB7,nbsp:~"
+set list
+
+"Starting Nerdtree if no file is specified
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+"Starting Nerdtree if opening a directory
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+
+
+"Setting the leader key
+let mapleader = "-"
+
+"Mapping ctrl n to Nerdtree
+map <C-n> :NERDTreeToggle<CR>
+
+"Map ctrl s to save
+map <C-s> :w<CR>
+
+"Map ctrl q to save & quit
+map <C-q> :wq<CR>
+
+
+colorscheme molokai
+filetype plugin on 
+let g:pydiction_location = '/home/user/.vim/bundle/pydiction/complete-dict' 
+let g:pydiction_menu_height = 5
+let g:airline_powerline_fonts = 1
+filetype plugin indent on
+set smartindent
+"show existing tab with 4 spaces width
+set tabstop=4
+" when indenting with '>', use 4 spaces width
+set shiftwidth=4
+" On pressing tab, insert 4 spaces
+set expandtab
+"Syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+
+"NerdTree highlighting depending of file ext
+function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
+ exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+ exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+endfunction
+call NERDTreeHighlightFile('txt', 'white', 'none', 'white', '#151515')
+call NERDTreeHighlightFile('py', 'green', 'none', 'green', '#151515')
+call NERDTreeHighlightFile('class', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
+call NERDTreeHighlightFile('cpp', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('sh', 'yellow', 'none', 'yellow','#151515')
+call NERDTreeHighlightFile('vim', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('c', 'cyan', 'none', 'cyan', '#151515')
+call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
+call NERDTreeHighlightFile('java', 'Red', 'none', 'red', '#151515')
+call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
+call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
+
+"Exec python
+autocmd FileType python nnoremap <buffer> <F9> :exec '!python3' shellescape(@%, 1)<cr>
+
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_python_checkers = ['pylint']
+
+"Newlines
+nnoremap <C-o> o<Esc>
+nnoremap <C-O> O<Esc>
