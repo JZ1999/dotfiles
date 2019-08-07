@@ -1,20 +1,30 @@
-execute pathogen#infect()
+" execute pathogen#infect()
+
 set noswapfile
 set rtp+=$HOME/.local/lib/python2.7/site-packages/powerline/bindings/vim/
+set relativenumber
 "Always show statusline
 set laststatus=2
+
+"Pseint
+au BufRead,BufNewFile *.psc set filetype=pseint 
+au! Syntax pseint source $VIM/psc.vim
+
+source ~/.vim/plugin/project.vim
 
 "Use 256 colours (Use this setting only if your terminal supports 256 colours)
 set t_Co=256
 
 set nu
 syntax on
-set clipboard=unnamed
+set nofoldenable    " disable folding
+"
+
 
 "Instantly better vim
 "Line on col 81
 highlight ColorColumn ctermbg=magenta
-call matchadd('ColorColumn', '\%81v', 100)
+call matchadd('ColorColumn', '\%90v', 100)
 "Better find
 exec "set listchars=tab:\uBB\uBB,trail:\uB7,nbsp:~"
 set list
@@ -41,33 +51,86 @@ map <C-s> :w<CR>
 map <C-q> :wq<CR>
 
 
-colorscheme molokai
+colorscheme candycode
 filetype plugin on 
-let g:pydiction_location = '/home/user/.vim/bundle/pydiction/complete-dict' 
+let g:pydiction_location = '/home/joseph/.vim/bundle/pydiction/complete-dict' 
 let g:pydiction_menu_height = 5
 let g:airline_powerline_fonts = 1
 filetype plugin indent on
-set smartindent
+" set smartindent
 "show existing tab with 4 spaces width
-set tabstop=4
+" set tabstop=4
 " when indenting with '>', use 4 spaces width
-set shiftwidth=4
+" set shiftwidth=4
 " On pressing tab, insert 4 spaces
-set expandtab
-"Syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" set expandtab
+" set softtabstop=0 noexpandtab
 
+" set autoindent
+" set noexpandtab
+" set tabstop=4
+" set shiftwidth=4
+
+set tabstop=4       " The width of a TAB is set to 4.
+                    " Still it is a \t. It is just that
+                    " Vim will interpret it to be having
+                    " a width of 4.
+
+set shiftwidth=4    " Indents will have a width of 4
+
+set softtabstop=4   " Sets the number of columns for a TAB
+
+set expandtab       " Expand TABs to spaces
+"Syntastic
+"This if checks if it is not neovim
+if !exists(':tnoremap')
+    set statusline+=%#warningmsg#
+    set statusline+=%{SyntasticStatuslineFlag()}
+    set statusline+=%*
+endif
+if exists(':tnoremap')
+	tnoremap <Esc> <C-\><C-n>
+endif
+
+
+" php/html mappings
+autocmd FileType php,html inoremap ,b <b></b><Space><++><Esc>FbT>i
+autocmd FileType php,html inoremap ,it <em></em><Space><++><Esc>FeT>i
+autocmd FileType php,html inoremap ,1 <h1></h1><Enter><Enter><++><Esc>2kf<i
+autocmd FileType php,html inoremap ,2 <h2></h2><Enter><Enter><++><Esc>2kf<i
+autocmd FileType php,html inoremap ,3 <h3></h3><Enter><Enter><++><Esc>2kf<i
+autocmd FileType php,html inoremap ,p <p></p><Enter><Enter><++><Esc>02kf>a
+autocmd FileType php,html inoremap ,a <a<Space>href=""><++></a><Space><++><Esc>14hi
+autocmd FileType php,html inoremap ,e <a<Space>target="_blank"<Space>href=""><++></a><Space><++><Esc>14hi
+autocmd FileType php,html inoremap ,ul <ul><Enter><li></li><Enter></ul><Enter><Enter><++><Esc>03kf<i
+autocmd FileType php,html inoremap ,li <Esc>o<li></li><Esc>F>a
+autocmd FileType php,html inoremap ,ol <ol><Enter><li></li><Enter></ol><Enter><Enter><++><Esc>03kf<i
+autocmd FileType php,html inoremap ,im <img src="" alt="<++>"><++><esc>Fcf"a
+autocmd FileType php,html inoremap ,td <td></td><++><Esc>Fdcit
+autocmd FileType php,html inoremap ,tr <tr></tr><Enter><++><Esc>kf<i
+autocmd FileType php,html inoremap ,th <th></th><++><Esc>Fhcit
+autocmd FileType php,html inoremap ,tab <table><Enter></table><Esc>O
+autocmd FileType php,html inoremap ,gr <font color="green"></font><Esc>F>a
+autocmd FileType php,html inoremap ,rd <font color="red"></font><Esc>F>a
+autocmd FileType php,html inoremap ,yl <font color="yellow"></font><Esc>F>a
+autocmd FileType php,html inoremap ,dt <dt></dt><Enter><dd><++></dd><Enter><++><esc>2kcit
+autocmd FileType php,html inoremap ,dl <dl><Enter><Enter></dl><enter><enter><++><esc>3kcc
+autocmd FileType php,html inoremap &<space> &amp;<space>olor=#66E0FF
 
 "NerdTree highlighting depending of file ext
 function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
  exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
  exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
 endfunction
-call NERDTreeHighlightFile('txt', 'white', 'none', 'white', '#151515')
+call NERDTreeHighlightFile('fxml', 'Gray', 'none', 'white', '#151516')
+call NERDTreeHighlightFile('xml', 'Gray', 'none', 'white', '#151516')
+call NERDTreeHighlightFile('hs', 'Magenta', 'none', 'white', '#151516')
+call NERDTreeHighlightFile('txt', 'white', 'none', 'white', '#151516')
 call NERDTreeHighlightFile('py', 'green', 'none', 'green', '#151515')
 call NERDTreeHighlightFile('class', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('pyc', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('out', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('o', 'yellow', 'none', 'yellow', '#151515')
 call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
 call NERDTreeHighlightFile('cpp', 'yellow', 'none', 'yellow', '#151515')
 call NERDTreeHighlightFile('sh', 'yellow', 'none', 'yellow','#151515')
@@ -76,12 +139,32 @@ call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
 call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
 call NERDTreeHighlightFile('c', 'cyan', 'none', 'cyan', '#151515')
 call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
+call NERDTreeHighlightFile('scss', 'cyan', 'none', 'cyan', '#151515')
+call NERDTreeHighlightFile('less', 'cyan', 'none', 'cyan', '#151515')
 call NERDTreeHighlightFile('java', 'Red', 'none', 'red', '#151515')
 call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
+call NERDTreeHighlightFile('ts', 'Red', 'none', 'cyan', '#151515')
 call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
+call NERDTreeHighlightFile('psc', 'blue', 'cyan', '#ff00ff', '#151515')
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 "Exec python
-autocmd FileType python nnoremap <buffer> <F9> :exec '!python3' shellescape(@%, 1)<cr>
+autocmd FileType python nnoremap <buffer> <F9> :w <bar> :exec '!clear && python3' shellescape(@%, 1)<cr>
+"Exec java
+autocmd FileType java nnoremap <buffer> <F9> :w <bar> :exec '!clear && mkdir -p _build && javac *.java -d _build/ && java _build/'.shellescape('%:t:r')<cr>
+"Exec html
+autocmd FileType html nnoremap <buffer> <F9> :w <bar> :exec '!clear && chromium-browser' shellescape(@%, 1) "&"<cr>
+"Exec haskell
+autocmd FileType haskell nnoremap <buffer> <F9> :w <bar> :exec '!clear && runhugs' shellescape(@%, 1) "&"<cr>
+"Exec c++
+autocmd filetype cpp nnoremap <silent> <buffer> <F9> :w <bar> exec '!clear && g++ '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
+"Exec c
+autocmd filetype c nnoremap <buffer> <F9> :w <bar> exec '!clear && gcc '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
+
+" map <F8> :w <CR> :!gcc % -o %< -lstdc++ && ./%< <CR>
+" map <F10> :w<CR> :!clear; make<CR> :!./%<<CR>
+" nnoremap <silent> <F8> :!clear;gcc % -o %< -lstdc++ && ./%<CR>
+" autocmd filetype cpp nnoremap <F4> :w <bar> exec '!g++ '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
 
 
 let g:syntastic_always_populate_loc_list = 1
@@ -92,4 +175,49 @@ let g:syntastic_python_checkers = ['pylint']
 
 "Newlines
 nnoremap <C-o> o<Esc>
-nnoremap <C-O> O<Esc>
+
+
+"latex to pdf
+autocmd filetype tex nnoremap <buffer> <leader>1 :w<bar> exec '!clear && pdflatex '.shellescape('%')<CR>
+
+"utf8
+set encoding=utf-8
+set fileencoding=utf-8
+set guifont=Lucida_Console:h9:cANSI
+set guifontwide=Lucida_Console:h12
+
+" closetag
+let g:closetag_html_style=1
+source ~/.vim/scripts/closetag.vim
+au Filetype html,xml,xsl,fxml source ~/.vim/scripts/closetag.vim
+
+"taglist
+let Tlist_Ctags_Cmd = "~/Downloads/ctags-5.8/"
+
+"ctags
+let g:ctags_statusline=1
+
+
+silent! helptags ALL
+set clipboard=unnamedplus
+
+"spelling
+"go to next incorrect word with ]s or [s
+"z= to see corrections
+"zg to add to dict
+"zug to remove from dict
+"1z= to correct to first correction
+map <leader>s :set spell!<CR>
+set spelllang=es
+" set spelllang=en
+
+"Notes
+"co: comment
+"
+"in visual mode <leader>m
+"in normal mode <leader>mm for multiselection
+"<leader>M: editing after selecting
+"
+" "<register>y to copy line to register
+" "<register>p to paste
+" example:   "ay
