@@ -1,0 +1,14 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+author:  {{NAME}} ({{EMAIL}})
+file:    {{FILE}}
+created: {{TIMESTAMP}}
+"""
+
+def main():
+    {{CURSOR}}
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,14 @@
+/**
+ * @author      : {{NAME}} ({{EMAIL}})
+ * @file        : {{FILE}}
+ * @created     : {{TIMESTAMP}}
+ */
+
+#include "stdio.h"
+
+int main(int argc, char *argv[]){
+    
+
+
+    return 0;
+}

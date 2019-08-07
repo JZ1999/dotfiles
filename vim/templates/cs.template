@@ -1,0 +1,17 @@
+/**
+ * @author          : {{NAME}} ({{EMAIL}})
+ * @file            : {{FILE}}
+ * @created         : {{TIMESTAMP}}
+ */
+
+using System;
+namespace {{FILE}}
+{
+    class {{CLASS}} 
+    {
+        static void Main() 
+        {
+            {{CURSOR}}
+        }
+    }
+}

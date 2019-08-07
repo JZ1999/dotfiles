@@ -1,0 +1,15 @@
+/**
+ * @author      : {{NAME}} ({{EMAIL}})
+ * @file        : {{FILE}}
+ * @created     : {{TIMESTAMP}}
+ * @url         : {{CURSOR}} 
+ */ 
+#include <iostream>
+
+using namespace std;
+
+int main(){
+    
+
+    return 0;
+}
